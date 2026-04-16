@@ -28,7 +28,7 @@
 @layer components {
   .kinetic-text {
     @apply font-black uppercase leading-[0.85] tracking-tighter;
-    font-size: clamp(4rem, 15vw, 20rem);
+    font-size: clamp(2.5rem, 15vw, 20rem);
   }
 
   .pink-gradient-bg {
@@ -44,7 +44,7 @@
   }
 
   .section-container {
-    @apply min-h-screen flex flex-col items-center justify-center relative px-6 py-20;
+    @apply min-h-screen flex flex-col items-center justify-center relative px-4 sm:px-6 py-12 sm:py-20;
   }
 }
 

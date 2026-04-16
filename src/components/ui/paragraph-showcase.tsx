@@ -47,7 +47,7 @@ const ParagraphShowcase: React.FC<ParagraphProps> = ({
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          className="relative z-10 max-w-xl text-5xl font-black lg:text-7xl text-pink-500 uppercase tracking-tighter"
+          className="relative z-10 max-w-xl text-4xl sm:text-5xl lg:text-7xl font-black text-pink-500 uppercase tracking-tighter"
         >
           {title}
         </motion.h2>
@@ -81,10 +81,10 @@ const ParagraphShowcase: React.FC<ParagraphProps> = ({
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="pt-6"
+              className="pt-2 sm:pt-6"
             >
-              <blockquote className="border-l-4 border-pink-200 pl-8 space-y-6">
-                <p className="text-pink-300 italic text-xl leading-relaxed font-medium">"{quote}"</p>
+              <blockquote className="border-l-4 border-pink-200 pl-4 sm:pl-8 space-y-4 sm:space-y-6">
+                <p className="text-pink-300 italic text-lg sm:text-xl leading-relaxed font-medium">"{quote}"</p>
 
                 <div className="mt-6 flex flex-col items-start gap-4">
                   <cite className="block font-black not-italic text-pink-500 tracking-widest uppercase text-sm">

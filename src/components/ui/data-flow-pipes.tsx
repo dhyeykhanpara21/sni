@@ -224,14 +224,15 @@ export function DataFlowPipes({
           key={node.id}
           className="absolute flex items-center justify-center shadow-2xl border-2 border-pink-100 hover:scale-105 transition-transform duration-300"
           style={{
-            left: node.x - 75,
-            top: node.y - 30,
-            width: 150,
-            height: 60,
+            left: `${(node.x / 1280) * 100}%`,
+            top: `${(node.y / 720) * 100}%`,
+            width: "clamp(80px, 12vw, 150px)",
+            height: "clamp(30px, 5vw, 60px)",
+            transform: "translate(-50%, -50%)",
             background: nodeColor,
             color: textColor,
-            borderRadius: 15,
-            fontSize: 18,
+            borderRadius: 12,
+            fontSize: "clamp(10px, 1.5vw, 18px)",
             fontWeight: 900,
             letterSpacing: "0.05em",
             textTransform: "uppercase",

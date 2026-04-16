@@ -16,6 +16,7 @@ import { Player } from "@remotion/player";
 import { DataFlowPipes } from "@/components/ui/data-flow-pipes";
 import InfiniteGallery from "@/components/ui/3d-gallery-photography";
 import ParagraphShowcase from "@/components/ui/paragraph-showcase";
+import { LinkPreview } from "@/components/ui/link-preview";
 
 // --- Global Constants ---
 const FRIEND_NAME = "SALONI";
@@ -61,15 +62,15 @@ const MemoryItem = ({ mem, scrollYProgress }: { mem: any, scrollYProgress: any }
   );
   const scale = useTransform(scrollYProgress, mem.range, [0.8, 1.2]);
   const y = useTransform(scrollYProgress, mem.range, [100, -100]);
-  const xOffset = useTransform(scrollYProgress, mem.range, [mem.x * 2, mem.x]);
-  const rotate = useTransform(scrollYProgress, mem.range, [mem.rotate * 2, mem.rotate]);
+  const xOffset = useTransform(scrollYProgress, mem.range, [mem.x * 1.2, mem.x * 0.5]); // Reduced for mobile
+  const rotate = useTransform(scrollYProgress, mem.range, [mem.rotate * 1.5, mem.rotate]);
 
   return (
     <motion.div 
       style={{ opacity, scale, y, x: xOffset, rotate }}
-      className="absolute flex flex-col items-center"
+      className="absolute flex flex-col items-center w-full px-4"
     >
-      <div className="w-80 h-[500px] md:w-[450px] md:h-[600px] bg-white border-8 border-white shadow-[0_50px_100px_rgba(0,0,0,0.3)] overflow-hidden">
+      <div className="w-full max-w-[280px] h-[400px] sm:max-w-sm sm:h-[500px] md:max-w-[450px] md:h-[600px] bg-white border-4 sm:border-8 border-white shadow-[0_30px_60px_rgba(0,0,0,0.2)] sm:shadow-[0_50px_100px_rgba(0,0,0,0.3)] overflow-hidden">
         <img 
           src={mem.img} 
           alt={mem.title} 
@@ -77,9 +78,9 @@ const MemoryItem = ({ mem, scrollYProgress }: { mem: any, scrollYProgress: any }
           referrerPolicy="no-referrer"
         />
       </div>
-      <div className="text-center bg-white/10 backdrop-blur-md p-8 border border-white/20 max-w-sm md:max-w-md mt-6">
-         <h3 className="text-pink-600 font-black text-4xl md:text-6xl tracking-tighter uppercase mb-2 drop-shadow-lg">{mem.title}</h3>
-         <p className="text-pink-400 font-black text-xs md:text-sm tracking-[0.4em] uppercase mb-4 opacity-80">{mem.sub}</p>
+      <div className="text-center bg-white/10 backdrop-blur-md p-4 sm:p-8 border border-white/20 w-full max-w-[280px] sm:max-w-sm md:max-w-md mt-4 sm:mt-6">
+         <h3 className="text-pink-600 font-black text-2xl sm:text-4xl md:text-6xl tracking-tighter uppercase mb-1 sm:mb-2 drop-shadow-lg">{mem.title}</h3>
+         <p className="text-pink-400 font-black text-[10px] sm:text-xs md:text-sm tracking-[0.3em] sm:tracking-[0.4em] uppercase mb-2 sm:mb-4 opacity-80">{mem.sub}</p>
          {mem.detail && (
            <motion.p 
              initial={{ opacity: 0, y: 10 }}
@@ -121,11 +122,11 @@ const FamilyMomentItem = ({ moment, i, scrollYProgress }: { moment: any, i: numb
         />
       </div>
       
-      <div className={`w-full md:w-1/2 space-y-6 ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
-        <h3 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-pink-500 leading-none">
+      <div className={`w-full md:w-1/2 space-y-3 sm:space-y-6 ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
+        <h3 className="text-4xl sm:text-6xl md:text-9xl font-black uppercase tracking-tighter text-pink-500 leading-none">
           {moment.title}
         </h3>
-        <p className="text-xl md:text-3xl font-bold text-pink-400 leading-relaxed italic border-l-8 border-pink-100 pl-8 ml-4">
+        <p className="text-sm sm:text-xl md:text-3xl font-bold text-pink-400 leading-relaxed italic border-l-4 sm:border-l-8 border-pink-100 pl-4 sm:pl-8 ml-2 sm:ml-4">
           {moment.desc}
         </p>
       </div>
@@ -200,7 +201,7 @@ const Intro = ({ onNext }: { onNext: () => void; key?: string }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="kinetic-text mb-[-2vw]"
+          className="kinetic-text mb-[-1.5vw] sm:mb-[-2vw]"
         >
           HAPPY
         </motion.h1>
@@ -208,7 +209,7 @@ const Intro = ({ onNext }: { onNext: () => void; key?: string }) => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="kinetic-text text-pink-200 mb-[-2vw]"
+          className="kinetic-text text-pink-200 mb-[-1.5vw] sm:mb-[-2vw]"
         >
           BIRTHDAY
         </motion.h1>
@@ -227,21 +228,21 @@ const Intro = ({ onNext }: { onNext: () => void; key?: string }) => {
           transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-12 flex flex-col items-start"
         >
-          <div className="flex items-center gap-6 mb-4">
-            <motion.div 
-              animate={{ rotate: 360, scale: [1, 1.2, 1] }}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-              className="text-pink-400"
-            >
-              <Sparkles size={48} strokeWidth={1.5} />
-            </motion.div>
-            <span className="text-pink-500 font-black text-4xl md:text-5xl tracking-widest uppercase">APRIL 17</span>
-          </div>
+        <div className="flex items-center gap-3 sm:gap-6 mb-4">
+          <motion.div 
+            animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="text-pink-400"
+          >
+            <Sparkles className="size-8 sm:size-12" strokeWidth={1.5} />
+          </motion.div>
+          <span className="text-pink-500 font-black text-2xl sm:text-4xl md:text-5xl tracking-widest uppercase">APRIL 17</span>
+        </div>
           <motion.span 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.5, duration: 1 }}
-            className="text-pink-200 font-bold text-lg tracking-[0.6em] uppercase pl-20"
+            className="text-pink-200 font-bold text-sm sm:text-lg tracking-[0.4em] sm:tracking-[0.6em] uppercase sm:pl-20"
           >
             The world got a little brighter
           </motion.span>
@@ -252,7 +253,7 @@ const Intro = ({ onNext }: { onNext: () => void; key?: string }) => {
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-20 right-20 z-10"
+        className="absolute bottom-10 right-10 sm:bottom-20 sm:right-20 z-10"
       >
         <motion.button 
           whileHover={{ scale: 1.05 }}
@@ -398,7 +399,7 @@ const QualitiesSection = ({ onNext }: { onNext: () => void; key?: string }) => {
       <HoverSlider 
         autoSlideInterval={3000} 
         slidesCount={SLIDES.length}
-        className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-12 p-12"
+        className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8 sm:gap-12 p-6 sm:p-12"
       >
         <div className="flex flex-col space-y-4 text-left">
           <span className="text-xs font-bold tracking-widest text-pink-300 uppercase mb-4">/ her essence • April 17</span>
@@ -406,7 +407,7 @@ const QualitiesSection = ({ onNext }: { onNext: () => void; key?: string }) => {
             <TextStaggerHover
               key={slide.id}
               index={index}
-              className="cursor-pointer text-4xl md:text-6xl font-black uppercase tracking-tighter text-pink-500"
+              className="cursor-pointer text-2xl sm:text-4xl md:text-6xl font-black uppercase tracking-tighter text-pink-500"
               text={slide.title}
             />
           ))}
@@ -420,7 +421,7 @@ const QualitiesSection = ({ onNext }: { onNext: () => void; key?: string }) => {
           </motion.button>
         </div>
 
-        <HoverSliderImageWrap className="w-full max-w-md aspect-[3/4] rounded-none shadow-2xl border-8 border-pink-50">
+        <HoverSliderImageWrap className="w-full max-w-[280px] sm:max-w-md aspect-[3/4] rounded-none shadow-2xl border-4 sm:border-8 border-pink-50">
           {SLIDES.map((slide, index) => (
             <HoverSliderImage
               key={slide.id}
@@ -553,7 +554,7 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
         <motion.h2 
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          className="text-8xl md:text-[12rem] font-black uppercase leading-none tracking-tighter mb-12"
+          className="text-5xl sm:text-8xl md:text-[12rem] font-black uppercase leading-[0.9] tracking-tighter mb-8 sm:mb-12"
         >
           THE <br /> MESSAGE
         </motion.h2>
@@ -561,15 +562,42 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-2xl md:text-4xl font-medium leading-tight text-pink-400"
+          className="text-xl sm:text-2xl md:text-4xl font-medium leading-[1.3] text-pink-400"
         >
-          Every year is a new page in the beautiful book of our friendship. You are the highlight of every chapter, the melody in every song, and the light in every room you enter.
+          Every year is a new page in the beautiful book of our friendship. You are the{" "}
+          <LinkPreview 
+            url="https://images.unsplash.com/photo-1492684223066-81342ee5ff30" 
+            imageSrc="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=40" 
+            isStatic 
+            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+          >
+            highlight
+          </LinkPreview>{" "}
+          of every chapter, the{" "}
+          <LinkPreview 
+            url="https://images.unsplash.com/photo-1514525253361-b83f859b25c0" 
+            imageSrc="https://images.unsplash.com/photo-1514525253361-b83f859b25c0?auto=format&fit=crop&w=400&q=40" 
+            isStatic 
+            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+          >
+            melody
+          </LinkPreview>{" "}
+          in every song, and the{" "}
+          <LinkPreview 
+            url="https://images.unsplash.com/photo-1470252649358-96f3c8024219" 
+            imageSrc="https://images.unsplash.com/photo-1470252649358-96f3c8024219?auto=format&fit=crop&w=400&q=40" 
+            isStatic 
+            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+          >
+            light
+          </LinkPreview>{" "}
+          in every room you enter.
         </motion.p>
         <motion.p 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
-          className="text-lg md:text-xl font-light leading-relaxed text-pink-300 mt-8 max-w-2xl mx-auto"
+          className="text-base sm:text-lg md:text-xl font-light leading-relaxed text-pink-300 mt-6 sm:mt-8 max-w-2xl mx-auto"
         >
           To the one who brings so much sweetness and joy to everyone around her. May your April 17th be as incredible and outstanding as you are. Here's to another year of making beautiful memories together.
         </motion.p>
@@ -578,7 +606,7 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onNext}
-          className="mt-20 px-12 py-6 bg-pink-500 text-white font-bold uppercase tracking-[0.3em] text-sm"
+          className="mt-12 sm:mt-20 px-8 py-4 sm:px-12 sm:py-6 bg-pink-500 text-white font-bold uppercase tracking-[0.3em] text-xs sm:text-sm"
         >
           CONTINUE
         </motion.button>
@@ -721,7 +749,7 @@ const Celebration = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => window.location.reload()}
-          className="px-12 py-6 border-4 border-pink-500 text-pink-500 font-black uppercase tracking-[0.5em] text-sm hover:bg-pink-500 hover:text-white transition-all"
+          className="px-8 py-4 sm:px-12 sm:py-6 border-4 border-pink-500 text-pink-500 font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-xs sm:text-sm hover:bg-pink-500 hover:text-white transition-all"
         >
           REPLAY
         </motion.button>
