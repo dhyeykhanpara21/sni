@@ -617,16 +617,16 @@ that quietly makes everything feel right.
 
 const PhotoStory = ({ onNext }: { onNext: () => void; key?: string }) => {
     const memories = [
-    { id: 1, title: "MOMENT 01", cat: "Travel", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" },
-    { id: 2, title: "MOMENT 02", cat: "Life", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" },
-    { id: 3, title: "MOMENT 03", cat: "Joy", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" },
-    { id: 4, title: "MOMENT 04", cat: "Peace", img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=80" },
-    { id: 5, title: "MOMENT 05", cat: "Love", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" },
-    { id: 6, title: "MOMENT 06", cat: "Joy", img: "/images/moments/moment_06.png" },
-    { id: 7, title: "MOMENT 07", cat: "Adventure", img: "/images/moments/moment_07.png" },
-    { id: 8, title: "MOMENT 08", cat: "Serenity", img: "/images/moments/moment_08.png" },
-    { id: 9, title: "MOMENT 09", cat: "Celebration", img: "/images/moments/moment_09.png" },
-    { id: 10, title: "MOMENT 10", cat: "Smile", img: "/images/moments/moment_10.png" },
+    { id: 1, title: "MOMENT 01", cat: "Travel", img: "/images/saloniphotos/19.jpeg" },
+    { id: 2, title: "MOMENT 02", cat: "Life", img: "/images/saloniphotos/17.jpeg" },
+    { id: 3, title: "MOMENT 03", cat: "Joy", img: "/images/saloniphotos/12.jpeg" },
+    { id: 4, title: "MOMENT 04", cat: "Peace", img: "/images/saloniphotos/15.jpeg" },
+    { id: 5, title: "MOMENT 05", cat: "Love", img: "/images/saloniphotos/18.jpeg" },
+    { id: 6, title: "MOMENT 06", cat: "Joy", img: "/images/saloniphotos/23.jpeg" },
+    { id: 7, title: "MOMENT 07", cat: "Adventure", img: "/images/saloniphotos/9.jpeg" },
+    { id: 8, title: "MOMENT 08", cat: "Serenity", img: "/images/saloniphotos/10.jpeg" },
+    { id: 9, title: "MOMENT 09", cat: "Celebration", img: "/images/saloniphotos/2.jpeg" },
+    { id: 10, title: "MOMENT 10", cat: "Smile", img: "/images/saloniphotos/5.jpeg" },
   ];
 
   return (
