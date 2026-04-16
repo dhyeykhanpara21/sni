@@ -564,34 +564,34 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
           transition={{ delay: 0.5 }}
           className="text-xl sm:text-2xl md:text-4xl font-medium leading-[1.3] text-pink-400"
         >
-          Every year is a new page in the beautiful book of our friendship. You are the{" "}
-          <LinkPreview 
-            url="https://images.unsplash.com/photo-1492684223066-81342ee5ff30" 
-            imageSrc="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=40" 
-            isStatic 
-            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
-          >
-            highlight
-          </LinkPreview>{" "}
-          of every chapter, the{" "}
-          <LinkPreview 
-            url="https://images.unsplash.com/photo-1514525253361-b83f859b25c0" 
-            imageSrc="https://images.unsplash.com/photo-1514525253361-b83f859b25c0?auto=format&fit=crop&w=400&q=40" 
-            isStatic 
-            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
-          >
-            melody
-          </LinkPreview>{" "}
-          in every song, and the{" "}
-          <LinkPreview 
-            url="https://images.unsplash.com/photo-1470252649358-96f3c8024219" 
-            imageSrc="https://images.unsplash.com/photo-1470252649358-96f3c8024219?auto=format&fit=crop&w=400&q=40" 
-            isStatic 
-            className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
-          >
-            light
-          </LinkPreview>{" "}
-          in every room you enter.
+          Every year adds a new chapter to a story that feels more beautiful because you are in it. You are the{" "}
+<LinkPreview 
+  url="https://images.unsplash.com/photo-1492684223066-81342ee5ff30" 
+  imageSrc="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=40" 
+  isStatic 
+  className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+>
+  calm
+</LinkPreview>{" "}
+in the chaos, the{" "}
+<LinkPreview 
+  url="https://images.unsplash.com/photo-1514525253361-b83f859b25c0" 
+  imageSrc="https://images.unsplash.com/photo-1514525253361-b83f859b25c0?auto=format&fit=crop&w=400&q=40" 
+  isStatic 
+  className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+>
+  warmth
+</LinkPreview>{" "}
+in every moment, and the{" "}
+<LinkPreview 
+  url="https://images.unsplash.com/photo-1470252649358-96f3c8024219" 
+  imageSrc="https://images.unsplash.com/photo-1470252649358-96f3c8024219?auto=format&fit=crop&w=400&q=40" 
+  isStatic 
+  className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
+>
+  light
+</LinkPreview>{" "}
+that quietly makes everything feel right.
         </motion.p>
         <motion.p 
           initial={{ opacity: 0 }}
@@ -765,7 +765,7 @@ export default function App() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const musicUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+  const musicUrl = "/song/Selena Gomez - Look At Her Now _ Cover by Jenny Jones.mp3";
 
   useEffect(() => {
     audioRef.current = new Audio(musicUrl);
