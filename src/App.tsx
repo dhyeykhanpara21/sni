@@ -566,8 +566,8 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
         >
           Every year adds a new chapter to a story that feels more beautiful because you are in it. You are the{" "}
 <LinkPreview 
-  url="https://images.unsplash.com/photo-1492684223066-81342ee5ff30" 
-  imageSrc="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=400&q=40" 
+  url="https://www.youtube.com/watch?v=zlJDTxahav0" 
+  imageSrc="/images/saloniphotos/salenagomez.jpg" 
   isStatic 
   className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
 >
@@ -575,8 +575,8 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
 </LinkPreview>{" "}
 in the chaos, the{" "}
 <LinkPreview 
-  url="https://images.unsplash.com/photo-1514525253361-b83f859b25c0" 
-  imageSrc="https://images.unsplash.com/photo-1514525253361-b83f859b25c0?auto=format&fit=crop&w=400&q=40" 
+  url="https://www.youtube.com/watch?v=EgT_us6AsDg" 
+  imageSrc="/images/saloniphotos/salenagomez2.jpg" 
   isStatic 
   className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
 >
@@ -584,8 +584,8 @@ in the chaos, the{" "}
 </LinkPreview>{" "}
 in every moment, and the{" "}
 <LinkPreview 
-  url="https://images.unsplash.com/photo-1470252649358-96f3c8024219" 
-  imageSrc="https://images.unsplash.com/photo-1470252649358-96f3c8024219?auto=format&fit=crop&w=400&q=40" 
+  url="https://www.youtube.com/watch?v=cpDyLJkhg0I" 
+  imageSrc="/images/saloniphotos/arjitsingh.jpg" 
   isStatic 
   className="font-black text-pink-500 underline decoration-pink-200 underline-offset-8 decoration-2"
 >
