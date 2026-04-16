@@ -14,9 +14,124 @@ import { Badge } from '@/components/ui/badge';
 import { HoverSlider, HoverSliderImage, HoverSliderImageWrap, TextStaggerHover } from '@/components/ui/animated-slideshow';
 import { Player } from "@remotion/player";
 import { DataFlowPipes } from "@/components/ui/data-flow-pipes";
+import InfiniteGallery from "@/components/ui/3d-gallery-photography";
+import ParagraphShowcase from "@/components/ui/paragraph-showcase";
 
 // --- Global Constants ---
 const FRIEND_NAME = "SALONI";
+
+const FAMILY_MOMENTS = [
+    {
+      title: "Her Smile",
+      desc: "A guiding light of wisdom and strength. The foundation of every beautiful dream we share.Your smile has a quiet magic… it doesn’t just brighten moments, it makes everything feel lighter and more beautiful 💖",
+      img: "/images/saloniphotos/9.jpeg"
+    },
+    {
+      title: "Pure Soul",
+      desc: "There’s a rare kind of goodness in you — the kind that makes people feel safe, valued, and truly cared for ✨",
+      img: "/images/saloniphotos/12.jpeg"
+    },
+    {
+      title: "Simply Special",
+      desc: "Someone who stands out not by trying, but just by being genuinely kind, graceful, and beautifully unique 💕",
+      img: "/images/saloniphotos/27.jpeg"
+    }
+];
+
+const THREE_D_GALLERY_IMAGES = [
+  { src: '/images/saloniphotos/16.jpeg', alt: 'Moment 1' },
+  { src: '/images/saloniphotos/17.jpeg', alt: 'Moment 2' },
+  { src: '/images/saloniphotos/18.jpeg', alt: 'Moment 3' },
+  { src: '/images/saloniphotos/19.jpeg', alt: 'Moment 4' },
+  { src: '/images/saloniphotos/20.jpeg', alt: 'Moment 5' },
+  { src: '/images/saloniphotos/22.jpeg', alt: 'Moment 6' },
+  { src: '/images/saloniphotos/23.jpeg', alt: 'Moment 7' },
+  { src: '/images/saloniphotos/26.jpeg', alt: 'Moment 8' },
+];
+
+const MemoryItem = ({ mem, scrollYProgress }: { mem: any, scrollYProgress: any }) => {
+  const start = mem.range[0];
+  const end = mem.range[1];
+  const duration = end - start;
+  const padding = duration * 0.2; // Use 20% of duration for padding instead of fixed 0.05
+
+  const opacity = useTransform(scrollYProgress, 
+    [start, start + padding, end - padding, end], 
+    [0, 1, 1, 0]
+  );
+  const scale = useTransform(scrollYProgress, mem.range, [0.8, 1.2]);
+  const y = useTransform(scrollYProgress, mem.range, [100, -100]);
+  const xOffset = useTransform(scrollYProgress, mem.range, [mem.x * 2, mem.x]);
+  const rotate = useTransform(scrollYProgress, mem.range, [mem.rotate * 2, mem.rotate]);
+
+  return (
+    <motion.div 
+      style={{ opacity, scale, y, x: xOffset, rotate }}
+      className="absolute flex flex-col items-center"
+    >
+      <div className="w-80 h-[500px] md:w-[450px] md:h-[600px] bg-white border-8 border-white shadow-[0_50px_100px_rgba(0,0,0,0.3)] overflow-hidden">
+        <img 
+          src={mem.img} 
+          alt={mem.title} 
+          className="w-full h-full object-cover transition-all duration-1000 scale-110 hover:scale-100"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+      <div className="text-center bg-white/10 backdrop-blur-md p-8 border border-white/20 max-w-sm md:max-w-md mt-6">
+         <h3 className="text-pink-600 font-black text-4xl md:text-6xl tracking-tighter uppercase mb-2 drop-shadow-lg">{mem.title}</h3>
+         <p className="text-pink-400 font-black text-xs md:text-sm tracking-[0.4em] uppercase mb-4 opacity-80">{mem.sub}</p>
+         {mem.detail && (
+           <motion.p 
+             initial={{ opacity: 0, y: 10 }}
+             whileInView={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.3, duration: 0.8 }}
+             className="text-pink-300 font-medium text-sm md:text-base leading-relaxed italic border-t border-pink-100/30 pt-4"
+           >
+             "{mem.detail}"
+           </motion.p>
+         )}
+      </div>
+    </motion.div>
+  );
+};
+
+const FamilyMomentItem = ({ moment, i, scrollYProgress }: { moment: any, i: number, scrollYProgress: any }) => {
+  const start = 0.82 + i * 0.06; // Increased from 0.03
+  const end = start + 0.05;      // Increased from 0.02
+  const duration = end - start;
+  const padding = duration * 0.2;
+  
+  const opacity = useTransform(scrollYProgress, 
+    [start, start + padding, end - padding, end], 
+    [0, 1, 1, 0]
+  );
+  const x = useTransform(scrollYProgress, [start, end], [i % 2 === 0 ? -100 : 100, 0]);
+  const pointerEvents = useTransform(scrollYProgress, p => (p > start && p < end) ? "auto" : "none");
+
+  return (
+    <motion.div
+      style={{ opacity, x, pointerEvents }}
+      className={`absolute inset-0 flex flex-col md:flex-row items-center justify-center ${i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-32 px-8`}
+    >
+      <div className="w-full md:w-1/2 relative aspect-[4/5] bg-pink-50 overflow-hidden shadow-3xl border-8 border-white group">
+        <img 
+          src={moment.img} 
+          alt={moment.title}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+        />
+      </div>
+      
+      <div className={`w-full md:w-1/2 space-y-6 ${i % 2 === 0 ? 'text-left' : 'text-right'}`}>
+        <h3 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-pink-500 leading-none">
+          {moment.title}
+        </h3>
+        <p className="text-xl md:text-3xl font-bold text-pink-400 leading-relaxed italic border-l-8 border-pink-100 pl-8 ml-4">
+          {moment.desc}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
 
 // --- Sub-Components ---
 
@@ -195,62 +310,66 @@ const MemorySpace = ({ onNext }: { onNext: () => void; key?: string }) => {
   });
 
   const memories = [
-    { id: 1, img: "https://images.unsplash.com/photo-1511688858344-18558b2d395a?auto=format&fit=crop&w=600&q=80", title: "THE FIRST LAUGH", sub: "A moment frozen in time", range: [0, 0.15] },
-    { id: 2, img: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80", title: "SUMMER NIGHTS", sub: "Under the golden glow", range: [0.15, 0.3] },
-    { id: 3, img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80", title: "UNFORGETTABLE", sub: "Every second counts", range: [0.3, 0.45] },
-    { id: 4, img: "/images/memories/moment_04.png", title: "GOLDEN TIMES", sub: "Nostalgic sunset dreams", range: [0.45, 0.6] },
-    { id: 5, img: "/images/memories/moment_05.png", title: "ENDLESS SMILES", sub: "Joy found in every laugh", range: [0.6, 0.75] },
-    { id: 6, img: "/images/memories/moment_06.png", title: "TRUE FRIENDSHIP", sub: "Walking through life together", range: [0.75, 0.9] },
+    { 
+      id: 1, 
+      img: "/images/saloniphotos/1.jpeg", 
+      title: "THE FIRST LAUGH", 
+      sub: "A moment frozen in time", 
+      detail: "The second it all began. A single shared smile that sparked a friendship destined to last a lifetime.",
+      range: [0, 0.08], x: -100, rotate: -5 
+    },
+    { 
+      id: 2, 
+      img: "/images/saloniphotos/2.jpeg", 
+      title: "SUMMER NIGHTS", 
+      sub: "Under the golden glow", 
+      detail: "Deep conversations under the neon lights, where every secret felt safe and every dream felt possible.",
+      range: [0.08, 0.16], x: 100, rotate: 5 
+    },
+    { 
+      id: 3, 
+      img: "/images/saloniphotos/3.jpeg", 
+      title: "UNFORGETTABLE", 
+      sub: "Every second counts", 
+      detail: "Some snapshots just stay with you. This was the peak of the season, pure energy and light.",
+      range: [0.16, 0.24], x: -80, rotate: -2 
+    },
+    { 
+      id: 4, 
+      img: "/images/saloniphotos/4.jpeg", 
+      title: "GOLDEN TIMES", 
+      sub: "Nostalgic sunset dreams", 
+      detail: "Chasing the sun until it dipped below the horizon. A reminder that life is beautiful exactly as it is.",
+      range: [0.24, 0.32], x: 80, rotate: 3 
+    },
+    { id: 5, img: "/images/saloniphotos/5.jpeg", title: "CHASING DREAMS", sub: "Reach for the stars", detail: "Looking toward the future with a fire in the heart.", range: [0.32, 0.40], x: -50, rotate: -4 },
+    { id: 6, img: "/images/saloniphotos/6.jpeg", title: "LAUGHTER RAIN", sub: "Dancing through life", detail: "Your laugh was the soundtrack to our best days.", range: [0.40, 0.48], x: 50, rotate: 2 },
+    { id: 7, img: "/images/saloniphotos/7.jpeg", title: "MIDNIGHT SNACKS", sub: "Secrets at 2 AM", range: [0.48, 0.56], x: -30, rotate: -1 },
+    { id: 8, img: "/images/saloniphotos/8.jpeg", title: "TRUE FRIENDSHIP", sub: "Walking together", range: [0.56, 0.64], x: 30, rotate: 4 },
   ];
 
   return (
-    <div ref={containerRef} className="h-[700vh] relative bg-white">
+    <div ref={containerRef} className="h-[900vh] relative bg-white">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="absolute top-10 left-10 text-pink-200 font-black text-xl tracking-tighter z-20">APRIL 17</div>
+        <div className="absolute top-10 left-10 text-pink-200 font-black text-xl tracking-tighter z-20 font-sans">APRIL 17</div>
         
-        <div className="relative z-10">
+        <div className="relative z-30 pointer-events-none">
           <KineticText text="MEMORIES" scrollProgress={scrollYProgress} range={[0, 1]} />
           <KineticTextReverse text="COLLECTED" scrollProgress={scrollYProgress} range={[0, 1]} />
           <KineticText text="FOREVER" scrollProgress={scrollYProgress} range={[0, 1]} />
         </div>
         
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          {memories.map((mem, i) => {
-            const opacity = useTransform(scrollYProgress, 
-              [mem.range[0], mem.range[0] + 0.05, mem.range[1] - 0.05, mem.range[1]], 
-              [0, 1, 1, 0]
-            );
-            const scale = useTransform(scrollYProgress, mem.range, [0.8, 1.1]);
-            const y = useTransform(scrollYProgress, mem.range, [50, -50]);
-
-            return (
-              <motion.div 
-                key={mem.id}
-                style={{ opacity, scale, y }}
-                className="absolute flex flex-col items-center"
-              >
-                <div className="w-64 h-96 bg-pink-100 rounded-none overflow-hidden shadow-2xl mb-6">
-                  <img 
-                    src={mem.img} 
-                    alt={mem.title} 
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
-                <div className="text-center">
-                  <h3 className="text-pink-500 font-black text-2xl tracking-tighter uppercase mb-1">{mem.title}</h3>
-                  <p className="text-pink-200 font-bold text-xs tracking-widest uppercase">{mem.sub}</p>
-                </div>
-              </motion.div>
-            );
-          })}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+          {memories.map((mem) => (
+            <MemoryItem key={mem.id} mem={mem} scrollYProgress={scrollYProgress} />
+          ))}
         </div>
 
         <motion.div 
-          style={{ opacity: useTransform(scrollYProgress, [0.9, 1], [0, 1]) }}
-          className="absolute bottom-20 right-20 pointer-events-auto z-20"
+          style={{ opacity: useTransform(scrollYProgress, [0.95, 1], [0, 1]) }}
+          className="absolute bottom-20 right-20 pointer-events-auto z-40"
         >
-          <button onClick={onNext} className="text-pink-500 font-bold uppercase tracking-widest group flex items-center gap-4">
+          <button onClick={onNext} className="text-pink-500 font-black uppercase tracking-[0.4em] group flex items-center gap-4 text-sm bg-white/80 backdrop-blur px-6 py-3 border border-pink-100 shadow-xl">
             NEXT CHAPTER <ArrowRight className="group-hover:translate-x-2 transition-transform" />
           </button>
         </motion.div>
@@ -261,12 +380,12 @@ const MemorySpace = ({ onNext }: { onNext: () => void; key?: string }) => {
 
 const QualitiesSection = ({ onNext }: { onNext: () => void; key?: string }) => {
   const SLIDES = [
-    { id: "s", title: "S → Sweetness", img: "https://images.unsplash.com/photo-1511688858344-18558b2d395a?auto=format&fit=crop&w=800&q=80" },
-    { id: "a", title: "A → Adorable", img: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=800&q=80" },
-    { id: "l", title: "L → Lovely", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" },
-    { id: "o", title: "O → Outstanding", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" },
-    { id: "n", title: "N → Nice-hearted", img: "https://images.unsplash.com/photo-1529139513477-323b63bc2d53?auto=format&fit=crop&w=800&q=80" },
-    { id: "i", title: "I → Incredible", img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=80" },
+    { id: "s", title: "S → Sweetness", img: "/images/saloniphotos/9.jpeg" },
+    { id: "a", title: "A → Adorable", img: "/images/saloniphotos/10.jpeg" },
+    { id: "l", title: "L → Lovely", img: "/images/saloniphotos/11.jpeg" },
+    { id: "o", title: "O → Outstanding", img: "/images/saloniphotos/12.jpeg" },
+    { id: "n", title: "N → Nice-hearted", img: "/images/saloniphotos/13.jpeg" },
+    { id: "i", title: "I → Incredible", img: "/images/saloniphotos/14.jpeg" },
   ];
 
   return (
@@ -318,46 +437,106 @@ const QualitiesSection = ({ onNext }: { onNext: () => void; key?: string }) => {
 };
 
 const FamilyTree = ({ onNext }: { onNext: () => void; key?: string }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="section-container bg-white flex flex-col items-center justify-center"
-    >
-      <div className="text-center mb-8">
-        <span className="text-xs font-bold tracking-widest text-pink-300 uppercase mb-2 block">/ roots & connections • Celebrating April 17</span>
-        <h2 className="text-5xl font-black text-pink-500 uppercase tracking-tighter">Family Flow</h2>
-        <p className="text-pink-300 text-sm mt-4 max-w-lg mx-auto font-medium">
-          The love that started it all. Celebrating the beautiful soul born on this special day, surrounded by the family that cherishes her most.
-        </p>
-      </div>
+    <div ref={containerRef} className="h-[900vh] relative bg-white">
+      <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+        
+        {/* CHAPTER 1: THE NETWORK FLOW (0% - 25%) */}
+        <motion.div 
+          style={{ 
+            opacity: useTransform(scrollYProgress, [0.00, 0.05, 0.25, 0.29], [0, 1, 1, 0]),
+            scale: useTransform(scrollYProgress, [0.00, 0.10], [0.8, 1]),
+            pointerEvents: useTransform(scrollYProgress, p => p < 0.28 ? "auto" : "none")
+          }}
+          className="absolute inset-0 flex flex-col items-center justify-center p-8 z-10"
+        >
+          <div className="text-center mb-8 z-30">
+            <span className="text-xs font-bold tracking-widest text-pink-300 uppercase mb-2 block">/ roots & connections</span>
+            <h2 className="text-5xl md:text-8xl font-black text-pink-500 uppercase tracking-tighter">Family Flow</h2>
+          </div>
+          <div className="w-full max-w-5xl aspect-video relative rounded-3xl overflow-hidden border-4 border-pink-50 shadow-2xl bg-pink-50/30">
+            <Player
+              component={DataFlowPipes}
+              durationInFrames={120}
+              fps={30}
+              compositionWidth={1280}
+              compositionHeight={720}
+              style={{ width: "100%", height: "100%" }}
+              controls={false}
+              autoPlay
+              loop
+              clickToPlay={false}
+              acknowledgeRemotionLicense
+            />
+          </div>
+        </motion.div>
 
-      <div className="w-full max-w-5xl aspect-video relative rounded-3xl overflow-hidden border-4 border-pink-50 shadow-2xl bg-pink-50/30">
-        <Player
-          component={DataFlowPipes}
-          durationInFrames={120}
-          fps={30}
-          compositionWidth={1280}
-          compositionHeight={720}
-          style={{ width: "100%", height: "100%" }}
-          controls={false}
-          autoPlay
-          loop
-          clickToPlay={false}
-          acknowledgeRemotionLicense
-        />
-      </div>
+        {/* CHAPTER 1.5: THE FAMILY FOUNDATION (30% - 55%) */}
+        <motion.div
+           style={{ 
+             opacity: useTransform(scrollYProgress, [0.32, 0.36, 0.52, 0.56], [0, 1, 1, 0]),
+             y: useTransform(scrollYProgress, [0.31, 0.36, 0.52, 0.56], [50, 0, 0, -50]),
+             pointerEvents: useTransform(scrollYProgress, p => (p > 0.32 && p < 0.55) ? "auto" : "none")
+           }}
+           className="absolute inset-0 z-20 flex items-center justify-center p-8 bg-white"
+        >
+          <ParagraphShowcase 
+            title="The Heart of our home"
+            content="Family is where life begins and love never ends. Saloni, you are the bridge that connects our past memories with our future dreams. Your presence turns ordinary moments into extraordinary milestones that we cherish forever."
+            highlightedText="ordinary moments into extraordinary milestones"
+            quote="Seeing Saloni grow into the incredible person she is today has been the greatest joy of our lives. Her kindness and spirit are the true foundation of our family."
+            quoteAuthor="The Khanpara Family"
+            quoteAuthorTitle="Saloni's Proudest Support"
+            imageUrl="/images/saloniphotos/21.jpeg"
+            className="py-0"
+          />
+        </motion.div>
 
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={onNext}
-        className="mt-12 px-10 py-4 bg-pink-500 text-white font-bold uppercase tracking-widest text-sm shadow-lg"
-      >
-        CONTINUE JOURNEY
-      </motion.button>
-    </motion.div>
+        {/* CHAPTER 2: THE 3D CINEMATIC REEL (60% - 85%) */}
+        <motion.div
+          style={{ 
+            opacity: useTransform(scrollYProgress, [0.60, 0.65, 0.78, 0.81], [0, 1, 1, 0]),
+            pointerEvents: useTransform(scrollYProgress, p => (p > 0.6 && p < 0.8) ? "auto" : "none")
+          }}
+          className="absolute inset-0 z-30"
+        >
+          <InfiniteGallery 
+             images={THREE_D_GALLERY_IMAGES}
+             speed={1.5}
+             visibleCount={12}
+             className="h-full w-full"
+          />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+             <h2 className="text-7xl md:text-9xl font-black text-white mix-blend-difference uppercase tracking-[0.2em] italic opacity-30">CINEMATIC</h2>
+          </div>
+        </motion.div>
+
+        {/* CHAPTER 3: PERSONAL STORIES (90% - 100%) */}
+        <div className="relative z-40 w-full">
+          {FAMILY_MOMENTS.map((moment, i) => (
+            <FamilyMomentItem key={i} moment={moment} i={i} scrollYProgress={scrollYProgress} />
+          ))}
+        </div>
+
+        <motion.div 
+          style={{ opacity: useTransform(scrollYProgress, [0.98, 1], [0, 1]) }}
+          className="absolute bottom-20 z-50 px-12 py-6"
+        >
+          <button 
+            onClick={onNext}
+            className="px-16 py-8 border-4 border-pink-500 text-pink-500 font-black uppercase tracking-[0.5em] text-sm hover:bg-pink-500 hover:text-white transition-all shadow-3xl bg-white"
+          >
+            CONTINUE JOURNEY
+          </button>
+        </motion.div>
+      </div>
+    </div>
   );
 };
 
@@ -410,7 +589,7 @@ const LivingCard = ({ onNext }: { onNext: () => void; key?: string }) => {
 const PhotoStory = ({ onNext }: { onNext: () => void; key?: string }) => {
     const memories = [
     { id: 1, title: "MOMENT 01", cat: "Travel", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80" },
-    { id: 2, title: "MOMENT 02", cat: "Life", img: "https://images.unsplash.com/photo-1529139513477-323b63bc2d53?auto=format&fit=crop&w=800&q=80" },
+    { id: 2, title: "MOMENT 02", cat: "Life", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80" },
     { id: 3, title: "MOMENT 03", cat: "Joy", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80" },
     { id: 4, title: "MOMENT 04", cat: "Peace", img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=800&q=80" },
     { id: 5, title: "MOMENT 05", cat: "Love", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80" },
