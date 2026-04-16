@@ -17,6 +17,7 @@ import { DataFlowPipes } from "@/components/ui/data-flow-pipes";
 import InfiniteGallery from "@/components/ui/3d-gallery-photography";
 import ParagraphShowcase from "@/components/ui/paragraph-showcase";
 import { LinkPreview } from "@/components/ui/link-preview";
+import { StackedCardsInteraction } from "@/components/ui/stacked-cards-interaction";
 
 // --- Global Constants ---
 const FRIEND_NAME = "SALONI";
@@ -738,10 +739,37 @@ const Celebration = () => {
         <h2 className="text-pink-400 font-black text-3xl mb-12 tracking-widest">APRIL 17</h2>
         
         <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mb-8"
+        >
+          <StackedCardsInteraction
+            cards={[
+              {
+                image: "/images/saloniphotos/1.jpeg",
+                title: "THE FIRST CHAPTER",
+                description: "Where it all began... a moment frozen in time.",
+              },
+              {
+                image: "/images/saloniphotos/4.jpeg",
+                title: "GOLDEN HOURS",
+                description: "Chasing sunsets and making memories that last.",
+              },
+              {
+                image: "/images/saloniphotos/9.jpeg",
+                title: "PURE MAGIC",
+                description: "Your smile is the foundation of our happiness.",
+              },
+            ]}
+          />
+        </motion.div>
+
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="mb-12 text-pink-300 font-medium max-w-md mx-auto"
+          className="mb-12 text-pink-300 font-medium max-w-md mx-auto px-4"
         >
           Wishing you a day filled with love, laughter, and all the things that make you smile. You deserve the best!
         </motion.div>
