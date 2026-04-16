@@ -36,30 +36,30 @@ const FONT_FAMILY =
   "var(--font-geist-sans), -apple-system, BlinkMacSystemFont, sans-serif";
 
 const DEFAULT_NODES: DataFlowNode[] = [
-  { id: "father", x: 240, y: 360, label: "Father" },
-  { id: "mother", x: 1040, y: 360, label: "Mother" },
+  { id: "Prakash", x: 240, y: 360, label: "Prakash" },
+  { id: "Koshali", x: 1040, y: 360, label: "Koshali" },
   { id: "saloni", x: 640, y: 240, label: "Saloni" },
   { id: "simran", x: 640, y: 480, label: "Simran" },
 ];
 
 const DEFAULT_EDGES: DataFlowEdge[] = [
   // Primary flow
-  { from: "father", to: "saloni", startFrame: 0 },
-  { from: "mother", to: "saloni", startFrame: 15 },
-  { from: "father", to: "simran", startFrame: 30 },
-  { from: "mother", to: "simran", startFrame: 45 },
-  
+  { from: "Prakash", to: "saloni", startFrame: 0 },
+  { from: "Koshali", to: "saloni", startFrame: 15 },
+  { from: "Prakash", to: "simran", startFrame: 30 },
+  { from: "Koshali", to: "simran", startFrame: 45 },
+
   // Internal bonds
-  { from: "father", to: "mother", startFrame: 60 },
-  { from: "mother", to: "father", startFrame: 75 },
+  { from: "Prakash", to: "Koshali", startFrame: 60 },
+  { from: "Koshali", to: "Prakash", startFrame: 75 },
   { from: "saloni", to: "simran", startFrame: 90 },
   { from: "simran", to: "saloni", startFrame: 105 },
 
   // Backflow / Reciprocal bonds
-  { from: "saloni", to: "father", startFrame: 10 },
-  { from: "simran", to: "father", startFrame: 40 },
-  { from: "saloni", to: "mother", startFrame: 70 },
-  { from: "simran", to: "mother", startFrame: 100 },
+  { from: "saloni", to: "Prakash", startFrame: 10 },
+  { from: "simran", to: "Prakash", startFrame: 40 },
+  { from: "saloni", to: "Koshali", startFrame: 70 },
+  { from: "simran", to: "Koshali", startFrame: 100 },
 ];
 
 /**
@@ -169,7 +169,7 @@ export function DataFlowPipes({
           const path = bezierPath(a, b);
           const len = bezierLength(a, b);
           const startFrame = edge.startFrame ?? 0;
-          
+
           // Two pulses per edge for "continuous" feel
           return [0, 60].map((frameOffset) => {
             const localFrame = (frame + frameOffset - startFrame) % 120;

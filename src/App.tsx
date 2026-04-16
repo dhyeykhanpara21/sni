@@ -488,10 +488,11 @@ const FamilyTree = ({ onNext }: { onNext: () => void; key?: string }) => {
         >
           <ParagraphShowcase 
             title="The Heart of our home"
-            content="Family is where life begins and love never ends. Saloni, you are the bridge that connects our past memories with our future dreams. Your presence turns ordinary moments into extraordinary milestones that we cherish forever."
-            highlightedText="ordinary moments into extraordinary milestones"
-            quote="Seeing Saloni grow into the incredible person she is today has been the greatest joy of our lives. Her kindness and spirit are the true foundation of our family."
-            quoteAuthor="The Khanpara Family"
+            content="Family is where love grows quietly and stays forever.
+Saloni, you are the warmth that holds everyone together, turning simple days into beautiful memories. Your presence brings comfort, laughter, and a sense of home that words can’t fully capture."
+            highlightedText=" Your presence brings comfort, laughter, and a sense of home that words can’t fully capture."
+            quote="The bond you share with your sister is something truly special — a mix of endless laughter, silent understanding, and unbreakable support. Together, you both create moments that are not just memories, but feelings that last a lifetime."
+            quoteAuthor="The Khokhani Family"
             quoteAuthorTitle="Saloni's Proudest Support"
             imageUrl="/images/saloniphotos/21.jpeg"
             className="py-0"
