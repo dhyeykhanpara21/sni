@@ -43,10 +43,23 @@ const DEFAULT_NODES: DataFlowNode[] = [
 ];
 
 const DEFAULT_EDGES: DataFlowEdge[] = [
+  // Primary flow
   { from: "father", to: "saloni", startFrame: 0 },
   { from: "mother", to: "saloni", startFrame: 15 },
   { from: "father", to: "simran", startFrame: 30 },
   { from: "mother", to: "simran", startFrame: 45 },
+  
+  // Internal bonds
+  { from: "father", to: "mother", startFrame: 60 },
+  { from: "mother", to: "father", startFrame: 75 },
+  { from: "saloni", to: "simran", startFrame: 90 },
+  { from: "simran", to: "saloni", startFrame: 105 },
+
+  // Backflow / Reciprocal bonds
+  { from: "saloni", to: "father", startFrame: 10 },
+  { from: "simran", to: "father", startFrame: 40 },
+  { from: "saloni", to: "mother", startFrame: 70 },
+  { from: "simran", to: "mother", startFrame: 100 },
 ];
 
 /**
@@ -55,7 +68,8 @@ const DEFAULT_EDGES: DataFlowEdge[] = [
 function bezierPath(a: { x: number; y: number }, b: { x: number; y: number }) {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
-  const handle = Math.max(60, Math.abs(dx) * 0.5);
+  // Increase handle size for same-X or tight nodes to create more "pipe" like curves
+  const handle = Math.max(100, Math.abs(dx) * 0.6);
   const c1x = a.x + handle;
   const c1y = a.y;
   const c2x = b.x - handle;
@@ -70,7 +84,8 @@ function bezierLength(
   a: { x: number; y: number },
   b: { x: number; y: number },
 ) {
-  const handle = Math.max(60, Math.abs(b.x - a.x) * 0.5);
+  const dx = b.x - a.x;
+  const handle = Math.max(100, Math.abs(dx) * 0.6);
   const c1 = { x: a.x + handle, y: a.y };
   const c2 = { x: b.x - handle, y: b.y };
   let len = 0;
@@ -103,11 +118,11 @@ export function DataFlowPipes({
   pipeColor = "#fbcfe8", // pink-200
   pulseColor = "#ec4899", // pink-500
   pulseLength = 60,
-  pulseDuration = 60,
+  pulseDuration = 80, // Slower pulses for more grace
   background = "transparent",
   nodeColor = "#fdf2f8", // pink-50
   textColor = "#db2777", // pink-600
-  speed = 1,
+  speed = 1.2, // Slightly faster overall scene
   className,
 }: DataFlowPipesProps) {
   const frame = useCurrentFrame() * speed;
@@ -139,13 +154,14 @@ export function DataFlowPipes({
               d={path}
               fill="none"
               stroke={pipeColor}
-              strokeWidth={3}
+              strokeWidth={2.5}
               strokeLinecap="round"
+              opacity={0.4}
             />
           );
         })}
 
-        {/* Pulses with trailing ghosts */}
+        {/* Pulses with continuous flow logic */}
         {edges.map((edge, i) => {
           const a = nodeMap.get(edge.from);
           const b = nodeMap.get(edge.to);
@@ -153,48 +169,52 @@ export function DataFlowPipes({
           const path = bezierPath(a, b);
           const len = bezierLength(a, b);
           const startFrame = edge.startFrame ?? 0;
-          const localFrame = frame % 120 - startFrame; // Loop every 120 frames
+          
+          // Two pulses per edge for "continuous" feel
+          return [0, 60].map((frameOffset) => {
+            const localFrame = (frame + frameOffset - startFrame) % 120;
 
-          const offset = interpolate(
-            localFrame,
-            [0, pulseDuration],
-            [len + pulseLength, -pulseLength],
-            { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
-          );
+            const offset = interpolate(
+              localFrame,
+              [0, pulseDuration],
+              [len + pulseLength, -pulseLength],
+              { extrapolateLeft: "clamp", extrapolateRight: "clamp" },
+            );
 
-          if (localFrame < 0 || localFrame > pulseDuration + 6) {
-            return null;
-          }
+            if (localFrame < 0 || localFrame > pulseDuration) {
+              return null;
+            }
 
-          return (
-            <g key={`pulse-${i}`}>
-              {[0.15, 0.3, 0.55].map((alpha, idx) => (
+            return (
+              <g key={`pulse-${i}-${frameOffset}`}>
+                {[0.2, 0.4].map((alpha, idx) => (
+                  <path
+                    key={`trail-${idx}`}
+                    d={path}
+                    fill="none"
+                    stroke={pulseColor}
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeDasharray={`${pulseLength} 9999`}
+                    strokeDashoffset={offset + (idx + 1) * 12}
+                    opacity={alpha}
+                  />
+                ))}
                 <path
-                  key={`trail-${idx}`}
                   d={path}
                   fill="none"
                   stroke={pulseColor}
                   strokeWidth={3}
                   strokeLinecap="round"
                   strokeDasharray={`${pulseLength} 9999`}
-                  strokeDashoffset={offset + (idx + 1) * 8}
-                  opacity={alpha}
+                  strokeDashoffset={offset}
+                  style={{
+                    filter: `drop-shadow(0 0 8px ${pulseColor})`,
+                  }}
                 />
-              ))}
-              <path
-                d={path}
-                fill="none"
-                stroke={pulseColor}
-                strokeWidth={3.5}
-                strokeLinecap="round"
-                strokeDasharray={`${pulseLength} 9999`}
-                strokeDashoffset={offset}
-                style={{
-                  filter: `drop-shadow(0 0 8px ${pulseColor})`,
-                }}
-              />
-            </g>
-          );
+              </g>
+            );
+          });
         })}
       </svg>
 
@@ -202,7 +222,7 @@ export function DataFlowPipes({
       {nodes.map((node) => (
         <div
           key={node.id}
-          className="absolute flex items-center justify-center shadow-xl border border-pink-100"
+          className="absolute flex items-center justify-center shadow-2xl border-2 border-pink-100 hover:scale-105 transition-transform duration-300"
           style={{
             left: node.x - 75,
             top: node.y - 30,
@@ -212,9 +232,10 @@ export function DataFlowPipes({
             color: textColor,
             borderRadius: 15,
             fontSize: 18,
-            fontWeight: 800,
-            letterSpacing: "-0.02em",
+            fontWeight: 900,
+            letterSpacing: "0.05em",
             textTransform: "uppercase",
+            zIndex: 50,
           }}
         >
           {node.label ?? node.id}

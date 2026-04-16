@@ -195,13 +195,16 @@ const MemorySpace = ({ onNext }: { onNext: () => void; key?: string }) => {
   });
 
   const memories = [
-    { id: 1, img: "https://images.unsplash.com/photo-1511688858344-18558b2d395a?auto=format&fit=crop&w=600&q=80", title: "THE FIRST LAUGH", sub: "A moment frozen in time", range: [0, 0.3] },
-    { id: 2, img: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80", title: "SUMMER NIGHTS", sub: "Under the golden glow", range: [0.3, 0.6] },
-    { id: 3, img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80", title: "UNFORGETTABLE", sub: "Every second counts", range: [0.6, 0.9] },
+    { id: 1, img: "https://images.unsplash.com/photo-1511688858344-18558b2d395a?auto=format&fit=crop&w=600&q=80", title: "THE FIRST LAUGH", sub: "A moment frozen in time", range: [0, 0.15] },
+    { id: 2, img: "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80", title: "SUMMER NIGHTS", sub: "Under the golden glow", range: [0.15, 0.3] },
+    { id: 3, img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80", title: "UNFORGETTABLE", sub: "Every second counts", range: [0.3, 0.45] },
+    { id: 4, img: "/images/memories/moment_04.png", title: "GOLDEN TIMES", sub: "Nostalgic sunset dreams", range: [0.45, 0.6] },
+    { id: 5, img: "/images/memories/moment_05.png", title: "ENDLESS SMILES", sub: "Joy found in every laugh", range: [0.6, 0.75] },
+    { id: 6, img: "/images/memories/moment_06.png", title: "TRUE FRIENDSHIP", sub: "Walking through life together", range: [0.75, 0.9] },
   ];
 
   return (
-    <div ref={containerRef} className="h-[400vh] relative bg-white">
+    <div ref={containerRef} className="h-[700vh] relative bg-white">
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         <div className="absolute top-10 left-10 text-pink-200 font-black text-xl tracking-tighter z-20">APRIL 17</div>
         
@@ -214,7 +217,7 @@ const MemorySpace = ({ onNext }: { onNext: () => void; key?: string }) => {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {memories.map((mem, i) => {
             const opacity = useTransform(scrollYProgress, 
-              [mem.range[0], mem.range[0] + 0.1, mem.range[1] - 0.1, mem.range[1]], 
+              [mem.range[0], mem.range[0] + 0.05, mem.range[1] - 0.05, mem.range[1]], 
               [0, 1, 1, 0]
             );
             const scale = useTransform(scrollYProgress, mem.range, [0.8, 1.1]);
@@ -499,7 +502,7 @@ const FinalMoment = ({ onNext }: { onNext: () => void; key?: string }) => {
       exit={{ opacity: 0 }}
       className="section-container bg-pink-500 text-white"
     >
-      <h2 className="kinetic-text">LOVE</h2>
+      <h2 className="kinetic-text">Small happiness from Dk</h2>
     </motion.div>
   );
 };
