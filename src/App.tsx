@@ -747,7 +747,7 @@ const Celebration = () => {
           <StackedCardsInteraction
             cards={[
               {
-                image: "/images/saloniphotos/1.jpeg",
+                image: "/images/saloniphotos/last.jpeg",
                 title: "THE FIRST CHAPTER",
                 description: "Where it all began... a moment frozen in time.",
               },
