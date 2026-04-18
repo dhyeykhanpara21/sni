@@ -793,7 +793,7 @@ export default function App() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const musicUrl = "/song/Selena Gomez - Look At Her Now _ Cover by Jenny Jones.mp3";
+  const musicUrl = "/song/song.mp3";
 
   useEffect(() => {
     audioRef.current = new Audio(musicUrl);
